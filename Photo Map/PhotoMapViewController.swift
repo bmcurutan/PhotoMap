@@ -51,6 +51,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         
         // Do something with the images (based on your use case)
         
+        
         // Dismiss UIImagePickerController to go back to your original view controller
         dismiss(animated: true, completion: {
             self.performSegue(withIdentifier: "tagSegue", sender: nil)
@@ -73,9 +74,9 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         
         let _ = navigationController?.popViewController(animated: true)
         
-        let annotation = MKPointAnnotation()
+        let annotation = PhotoAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        annotation.title = "Picture!"
+//        annotation.title = "Picture!"
         mapView.addAnnotation(annotation)
         
     }
@@ -84,15 +85,36 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         
         let reuseID = "myAnnotationView"
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
-        if (annotationView == nil) {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            annotationView!.canShowCallout = true
-            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
-        }
         
-        let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
-        imageView.image = UIImage(named: "camera")
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+        
+        let resizeRenderImageView = UIImageView(frame: CGRect(x:0, y:0, width:45, height:45))
+        resizeRenderImageView.layer.borderColor = UIColor.white.cgColor
+        resizeRenderImageView.layer.borderWidth = 3.0
+        resizeRenderImageView.contentMode = UIViewContentMode.scaleAspectFill
+        
+        if let photoAnnotation = annotation as? PhotoAnnotation {
+            
+            
+            resizeRenderImageView.image = myImage
+            
+            UIGraphicsBeginImageContext(resizeRenderImageView.frame.size)
+            resizeRenderImageView.layer.render(in:UIGraphicsGetCurrentContext()!)
+            let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
+            
+            
+            
+            if (annotationView == nil) {
+                annotationView = MKPinAnnotationView(annotation: photoAnnotation, reuseIdentifier: reuseID)
+                annotationView!.canShowCallout = true
+                annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+            }
+            
+            let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
+            imageView.image = thumbnail
+            
+            UIGraphicsEndImageContext()
+        }
         
         return annotationView
     }
