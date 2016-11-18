@@ -64,9 +64,21 @@
                     <view key="view" contentMode="scaleToFill" id="IER-PT-2nq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x0u-RQ-OWD"/>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="x0u-RQ-OWD" firstAttribute="leading" secondItem="IER-PT-2nq" secondAttribute="leading" id="gwE-kg-3hn"/>
+                            <constraint firstItem="x0u-RQ-OWD" firstAttribute="top" secondItem="FF8-mr-LhG" secondAttribute="bottom" id="h6Y-aZ-Bk4"/>
+                            <constraint firstAttribute="trailing" secondItem="x0u-RQ-OWD" secondAttribute="trailing" id="hPZ-75-v5P"/>
+                            <constraint firstItem="N8d-FM-OAP" firstAttribute="top" secondItem="x0u-RQ-OWD" secondAttribute="bottom" id="nru-Xw-g1w"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HUo-VF-R6y"/>
+                    <connections>
+                        <outlet property="fullImage" destination="x0u-RQ-OWD" id="KkW-KT-JNS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QRl-fe-rlf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -65,8 +65,13 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        let vc = segue.destination as! LocationsViewController
-        vc.delegate = self
+        if segue.identifier == "tagSegue" {
+            let vc = segue.destination as! LocationsViewController
+            vc.delegate = self
+        } else if segue.identifier == "fullImageSegue" {
+            let vc = segue.destination as! FullImageViewController
+            vc.photo = myImage
+        }
         
     }
     
@@ -108,6 +113,8 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
                 annotationView = MKPinAnnotationView(annotation: photoAnnotation, reuseIdentifier: reuseID)
                 annotationView!.canShowCallout = true
                 annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+                
+                annotationView!.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
             }
             
             let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
@@ -117,6 +124,10 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "fullImageSegue", sender: nil)
     }
 
 }
